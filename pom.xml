@@ -109,13 +109,13 @@
         <sonar.issue.ignore.multicriteria.rule1.resourceKey>**/*</sonar.issue.ignore.multicriteria.rule1.resourceKey>
     </properties>
 	
-    <distributionManagement>
+<!--    <distributionManagement>
 		<repository>
 			<id>github</id>
 			<name>GitHub OWNER Apache Maven Packages</name>
 			<url>https://maven.pkg.github.com/harman-automotive/csp-central-repo</url>
 		</repository>
-    </distributionManagement>
+    </distributionManagement> -->
   
     <dependencies>
         <dependency>
