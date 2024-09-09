@@ -37,11 +37,11 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.harman.ignite</groupId>
-    <artifactId>ignite-entities</artifactId>
+    <groupId>com.eclipse.ecsp</groupId>
+    <artifactId>entities</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>ignite-entities</name>
-    <description>Consists of Ignite entities</description>
+    <name>entities</name>
+    <description>Entities library</description>
     <url>http://maven.apache.org</url>
 
     <scm>
@@ -64,7 +64,7 @@
 
     <organization>
         <url>https://github.com/eclipse-ecsp</url>
-        <name>eclipse-ecsp </name>
+        <name>eclipse-ecsp</name>
     </organization>
 
     <properties>
