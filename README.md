@@ -77,9 +77,9 @@ The `entities` project serves as a library for the services. It is not meant to 
 Add the following dependency in the target project
 ```
 <dependency>
-  <groupId>com.harman.ignite</groupId>
-  <artifactId>ignite-entities</artifactId>
-  <version>3.X.X</version>
+  <groupId>com.eclipse.ecsp</groupId>
+  <artifactId>entities</artifactId>
+  <version>1.X.X</version>
 </dependency>
 
 ```
