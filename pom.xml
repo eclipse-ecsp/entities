@@ -39,14 +39,14 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.harman.ignite</groupId>
     <artifactId>ignite-entities</artifactId>
-    <version>3.0.3</version>
+    <version>1.0-SNAPSHOT</version>
     <name>ignite-entities</name>
     <description>Consists of Ignite entities</description>
     <url>http://maven.apache.org</url>
 
     <scm>
-        <connection>scm:git:https://github.com/HARMAN-Automotive/entities.git</connection>
-        <url>https://github.com/HARMAN-Automotive/entities</url>
+        <connection>scm:git:https://github.com/eclipse-ecsp/entities.git</connection>
+        <url>https://github.com/eclipse-ecsp/entities</url>
         <tag>HEAD</tag>
     </scm>
 
@@ -59,12 +59,12 @@
 
     <issueManagement>
         <system>GitHub</system>
-        <url>https://github.com/HARMAN-Automotive/entities/issues</url>
+        <url>https://github.com/eclipse-ecsp/entities/issues</url>
     </issueManagement>
 
     <organization>
-        <url>https://github.com/HARMAN-Automotive</url>
-        <name>HARMAN Automotive</name>
+        <url>https://github.com/eclipse-ecsp</url>
+        <name>eclipse-ecsp </name>
     </organization>
 
     <properties>
