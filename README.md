@@ -1,10 +1,10 @@
 [<img src="./images/logo.png" width="400" height="200"/>](./images/logo.png)
 
 # Entities
-[![Build](https://github.com/HARMAN-Automotive/entities/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/HARMAN-Automotive/entities/actions/workflows/maven-publish.yml)
-[![License Compliance](https://github.com/Harman-Automotive/entities/actions/workflows/license-compliance.yml/badge.svg)](https://github.com/Harman-Automotive/entities/actions/workflows/license-compliance.yml)
+[![Build](https://github.com/eclipse-ecsp/entities/actions/workflows/maven-publish.yml/badge.svg)](https://github.com/eclipse-ecsp/entities/actions/workflows/maven-publish.yml)
+[![License Compliance](https://github.com/eclipse-ecsp/entities/actions/workflows/license-compliance.yml/badge.svg)](https://github.com/eclipse-ecsp/entities/actions/workflows/license-compliance.yml)
 
-`Entities` library provides the below functionalities to a service. 
+The `entities` project provides the following functionalities to a service. 
 
 -  Event data representation as `AbstractEventData` in event specification 
 -  Customized `EventData` types:
@@ -21,7 +21,7 @@
 - Retries of a device message `RetryRecord` along with tracking the number of retries. 
 - Maintaining Vehicle ID to Device ID mapping `VehicleIdDeviceIdMapping` and connection status `VehicleIdDeviceIdStatus`
 - Added capability to add `UserContext` on event 
-- Scheduling events and create and delete operations on a schedule event along with `Firing` information - the time at which the schedule was fired.
+- Scheduling events and create and delete operations on a schedule event along with `Firing` information at time the schedule was fired
 
 # Table of Contents
 * [Getting Started](#getting-started)
@@ -49,7 +49,7 @@ from the command line interface.
 ### Prerequisites
 
 1. Maven
-2. Java 11
+2. Java 17
 
 ### Installation
 
@@ -71,7 +71,7 @@ To run a method from within a test
 
 ### Deployment
 
-`entities` project serves as a library for the services. It is not meant to be deployed as a service in any cloud environment.
+The `entities` project serves as a library for the services. It is not meant to be deployed as a service in a Cloud environment.
 
 ## Usage
 Add the following dependency in the target project
@@ -147,7 +147,7 @@ public class DeviceMessageFailureEventDataV1_0 extends AbstractEventData {
 
 To create scheduled events with the information - schedule id, recurrence type, `Firing` information, the received needs to be of the type `CreateScheduleEventData`
 
-To delete scheduled events, the received needs to be of the type `DeleteScheduleEventData` which provided the schedule id of the schedule to be deleted.
+To delete scheduled events, the received needs to be of the type `DeleteScheduleEventData`, which is provided in the schedule ID of the schedule to delete.
 
 
 #### Custom event data representation
@@ -192,21 +192,11 @@ public class ScheduleEntry extends AbstractIgniteEntity {
 
 #### Creating an entity for Ignite Event
 
-An `IgniteEvent` needs to be of the type `AbstractIgniteEvent` to be stored in the database as per the Ignite event specification. While the `EventData` represents the event's structure for jackson serialization/deserialization, `AbstractIgniteEvent` is the one with attributes for the database.
+An `IgniteEvent` needs to be of the type `AbstractIgniteEvent` to be stored in the database as per the Ignite event specification. While the `EventData` represents the event's structure for Jackson serialization/deserialization, `AbstractIgniteEvent` is the one with attributes for the database.
 
-Some of the different attributes stored in the database for an `AbstractIgniteEvent` event are:
-   - timezone
-   - dff qualifier
-   - deviceRoutable
-   - user context `UserContext` info
-   - mqtt topic
-   - device message global topic
-   - event id
-   - event data
-   - vehicle id
-   - request id, message id, correlation id, bizTransaction Id
+The following are the attributes stored in the database for an `AbstractIgniteEvent` event: - timezone - dff qualifier - deviceRoutable - user context UserContext info - mqtt topic - device message global topic - event ID - event data - vehicle ID - request ID, message ID, correlation ID, bizTransaction ID
 
-Ex:
+Example:
 
 ```java
 @Entity
@@ -221,7 +211,7 @@ Some of the attributes of a Device Message include:
    - message - a byte array representation of the actual device message.
    - Ignite Event - using this the byteArray message was generated. This is needed in scenarios where we have to send a feedback on DM failures.
    - feedBackTopic - The kafka topic for sending feedback.
-   - DeviceMessageHeader - Other metadata related to the device message - viz. messageid, correlation id, request id, vehicle id, etc.
+   - DeviceMessageHeader - Other metadata related to the device message, such as messageid, correlation id, request id, vehicle id, and so on.
 
 #### Creating a retry record for device message failure
 
@@ -245,7 +235,7 @@ Example:
 #### Auditing entities
 
 Auditing an entity means keeping track of the time when the entity was last updated.
-To create an Auditable entity, services need to 
+To create an Auditable entity, services must have the following:
 
 ```java
 public class AuditableEntityTest implements IgniteEntity, AuditableIgniteEntity {
@@ -307,14 +297,15 @@ Please read [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md) for details on our code o
 * **Kaushal Arora** - *Initial work* 
 * **Ashish Kumar Singh** - *Coding guidelines*
 
-See also the list of [contributors](https://github.com/HARMAN-Automotive/entities/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/eclipse-ecsp/entities/contributors) who participated in this project.
 
 ## Security Contact Information
 
 Please read [SECURITY.md](./SECURITY.md) to raise any security related issues.
 
 ## Support
-Please write to us at [csp@harman.com](mailto:csp@harman.com)
+
+Contact the project developers via the project's "dev" list - https://accounts.eclipse.org/mailing-list/ecsp-dev
 
 ## Troubleshooting
 
@@ -326,8 +317,5 @@ This project is licensed under the Apache-2.0 License - see the [LICENSE](./LICE
 
 ## Announcements
 
-All updates to this library are documented in our [Release notes](./release_notes.txt) and [releases](https://github.com/HARMAN-Automotive/entities/releases)
-For the versions available, see the [tags on this repository](https://github.com/HARMAN-Automotive/entities/tags).
-
-
-
+All updates to this library are documented in our [Release notes](./release_notes.txt) and [releases](https://github.com/eclipse-ecsp/entities/releases)
+For the versions available, see the [tags on this repository](https://github.com/eclipse-ecsp/entities/tags).
