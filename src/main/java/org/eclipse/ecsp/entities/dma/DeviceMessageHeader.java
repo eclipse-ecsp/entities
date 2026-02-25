@@ -38,6 +38,7 @@ package org.eclipse.ecsp.entities.dma;
 
 import dev.morphia.annotations.Entity;
 import org.apache.commons.lang3.StringUtils;
+import org.eclipse.ecsp.enums.QosLevel;
 
 /**
  * Device message header.
@@ -61,6 +62,7 @@ public class DeviceMessageHeader {
     private long timestamp;
     private String platformId;
     private short timezone;
+    private QosLevel qosLevel;
 
     /*
      * RTC 285555 DMA should store the retry attempt in offline buffer. So as
@@ -275,6 +277,18 @@ public class DeviceMessageHeader {
     }
 
     /**
+     * set qosLevel.
+     *
+     * @param qosLevel : Integer
+     *
+     * @return DeviceMessageHeader
+     */
+    public DeviceMessageHeader withQosLevel(QosLevel qosLevel) {
+        this.qosLevel = qosLevel;
+        return this;
+    }
+
+    /**
      * set isPendingRetriesSet flag.
      *
      * @param isPendingRetriesSet : boolean
@@ -448,6 +462,15 @@ public class DeviceMessageHeader {
         return timezone;
     }
 
+    /**
+     * get qosLevel.
+     *
+     * @return QosLevel
+     */
+    public QosLevel getQosLevel() {
+        return qosLevel;
+    }
+
     @Override
     public String toString() {
         return "DeviceMessageHeader [messageId=" + messageId
@@ -457,7 +480,7 @@ public class DeviceMessageHeader {
                 + ", responseExpected=" + responseExpected + ", shoulderTapEnabled="
                 + shoulderTapEnabled + ", deviceDeliveryCutoff=" + deviceDeliveryCutoff
                 + ", timestamp=" + timestamp
-                + ", timezone=" + timezone
+                + ", timezone=" + timezone + ", qosLevel=" + qosLevel
                 + ", devMsgTopicSuffix=" + devMsgTopicSuffix
                 + ", devMsgTopicPrefix=" + devMsgTopicPrefix + ", devMsgGlobalTopic="
                 + devMsgGlobalTopic + "]";

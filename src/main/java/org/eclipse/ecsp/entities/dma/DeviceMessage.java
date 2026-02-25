@@ -42,6 +42,7 @@ import org.eclipse.ecsp.entities.AbstractIgniteEntity;
 import org.eclipse.ecsp.entities.IgniteEventImpl;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -177,6 +178,7 @@ public class DeviceMessage extends AbstractIgniteEntity {
             deviceMessageHeader.withDevMsgTopicPrefix(devMsgTopicPrefix.get());
         }
         deviceMessageHeader.withTargetDeviceId(event.getTargetDeviceId().orElse(event.getSourceDeviceId()));
+        deviceMessageHeader.withQosLevel(event.getQosLevel());
     }
 
     /**

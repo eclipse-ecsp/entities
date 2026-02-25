@@ -179,5 +179,10 @@ public class EventAttribute {
      * KafkaHeaders.
      */
     public static final String KAFKA_HEADERS = "KafkaHeaders";
+    
+    /**
+     * QosLevel.
+     */
+    public static final String QOS_LEVEL = "QosLevel";
 
 }

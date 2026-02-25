@@ -42,6 +42,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.eclipse.ecsp.domain.EventAttribute;
+import org.eclipse.ecsp.enums.QosLevel;
 import org.eclipse.ecsp.utils.Constants;
 
 import java.io.Serializable;
@@ -191,6 +192,13 @@ public abstract class AbstractIgniteEvent extends AbstractIgniteEventBase implem
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @JsonProperty(value = EventAttribute.PLATFORM_ID)
     private String platformId;
+
+    /**
+     * qosLevel.
+     */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty(value = EventAttribute.QOS_LEVEL)
+    private QosLevel qosLevel;
 
     /**
      * get value for timezone.
@@ -594,6 +602,25 @@ public abstract class AbstractIgniteEvent extends AbstractIgniteEventBase implem
         this.kafkaHeaders = kafkaHeaders;
     }
 
+    /**
+     * get QoS level.
+     *
+     * @return Integer
+     */
+    @Override
+    public QosLevel getQosLevel() {
+        return this.qosLevel;
+    }
+
+    /**
+     * set QoS level.
+     *
+     * @param qosLevel : Integer
+     */
+    public void setQosLevel(QosLevel qosLevel) {
+        this.qosLevel = qosLevel;
+    }
+
     @Override
     public String toString() {
         return "AbstractIgniteEvent [timezone=" + timezone + ", dffQualifier=" + dffQualifier
@@ -607,7 +634,7 @@ public abstract class AbstractIgniteEvent extends AbstractIgniteEventBase implem
                 + ", version=" + version + ", timestamp=" + timestamp + ", eventData=" + eventData
                 + ", requestId=" + requestId
                 + ", sourceDeviceId=" + sourceDeviceId + ", vehicleId=" + vehicleId
-                + ", kafkaHeaders=" + kafkaHeaders + "]";
+                + ", kafkaHeaders=" + kafkaHeaders + ", qosLevel=" + qosLevel + "]";
     }
 
 }

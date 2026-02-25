@@ -67,8 +67,9 @@ public class IgniteEventImpl extends AbstractIgniteEvent {
                 + getTargetDeviceId() + ", getMessageId()=" + getMessageId()
                 + ", getCorrelationId()=" + getCorrelationId()
                 + ", getBizTransactionId()=" + getBizTransactionId() + ", isDeviceRoutable()="
-                + isDeviceRoutable() + ", toString()="
+                + isDeviceRoutable() + ", getQosLevel()=" + getQosLevel() + ", toString()="
                 + super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + "]";
+
     }
 
     /**
@@ -99,6 +100,7 @@ public class IgniteEventImpl extends AbstractIgniteEvent {
         clone.setTransientData(isTransientData());
         clone.setVehicleId(getVehicleId());
         clone.setVersion(getVersion());
+        clone.setQosLevel(getQosLevel());
         return clone;
     }
 
