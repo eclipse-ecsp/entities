@@ -71,5 +71,9 @@ public enum DeviceMessageErrorCode {
     /**
      * KAFKA_DISPATCH_FAILED.
      */
-    KAFKA_DISPATCH_FAILED;
+    KAFKA_DISPATCH_FAILED,
+    /**
+     * PU_BACK_NOT_RECEIVED.
+     */
+    PU_ACK_NOT_RECEIVED;
 }
