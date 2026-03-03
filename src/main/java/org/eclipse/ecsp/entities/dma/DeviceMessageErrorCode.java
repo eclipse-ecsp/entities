@@ -75,5 +75,5 @@ public enum DeviceMessageErrorCode {
     /**
      * PU_BACK_NOT_RECEIVED.
      */
-    PU_ACK_NOT_RECEIVED;
+    PUB_ACK_NOT_RECEIVED;
 }
