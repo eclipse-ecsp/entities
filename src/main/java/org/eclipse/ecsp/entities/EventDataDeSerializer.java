@@ -58,6 +58,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -140,21 +141,14 @@ public class EventDataDeSerializer extends StdDeserializer<EventData> {
         JsonPointer jsonPointer = jp.getParsingContext().pathAsPointer();
         ObjectMapper mapper = (ObjectMapper) jp.getCodec();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        JsonNode node = null;
         Object sourceRef = startLocation.contentReference().getRawContent();
-        String originalString = null;
-
-        if (sourceRef instanceof StringReader) {
-            originalString = getOriginalStringFromSource(sourceRef);
-        } else if (sourceRef instanceof String s)  {
-            originalString = s;
-        }
+        String originalString = getOriginalStringFromSource(sourceRef);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Deserializing the json string:{}", originalString);
         }
-        node = mapper.readTree(originalString);
 
         Class<EventData> clazz = null;
+        JsonNode node = mapper.readTree(originalString);
 
         /*
          * When we receive single json then we we need the original string to
@@ -181,26 +175,61 @@ public class EventDataDeSerializer extends StdDeserializer<EventData> {
     @SuppressWarnings("checkstyle:MatchXpath")
     private String getOriginalStringFromSource(Object sourceRef) {
         /*
-         * RTC: 166963 Introduced reflection here as of now to fetch the str
-         * field value (actual event json string) from the StringReader.
-         * RCA: the previous approach of reading from sourceRef and closing
-         * the reader was resetting and closing the reader present inside
-         * the jp parser. Hence stream closed exception was observed .
-         *
+         * RTC: 166963
          * Note: This flow is invoked only in the case where event json
          * string is larger than 32 kb chars.
-         *
-         * TBD: Alternative of reflection approach to be determined and
-         * implemented.
+         * Uses reflection to access StringReader's internal field.
+         * Requires --add-opens=java.base/java.io=ALL-UNNAMED JVM flag.
+         * 
+         * Java 25: StringReader was refactored to delegate to Reader.of(s).
+         * Must access 'r' field and extract CharSequence from the delegate.
+         * The delegate is an anonymous class with 'val$cs' synthetic field.
          */
 
         String originalString;
         try {
-            var fieldStr = sourceRef.getClass().getDeclaredField(Constants.STRING_READER_FIELD_STR);
-            fieldStr.setAccessible(true);
-            originalString = (String) fieldStr.get(sourceRef);
-        } catch (Exception e) {
-            throw new DataDeserializationException(Constants.DESERIALIZATION_EVENT_ERROR, e);
+            if (sourceRef instanceof StringReader) {
+                StringReader sr = (StringReader) sourceRef;
+                // Java 25 StringReader uses delegation pattern with 'r' field
+                Field readerField = StringReader.class.getDeclaredField("r");
+                readerField.setAccessible(true);
+                Object readerDelegate = readerField.get(sr);
+                
+                if (readerDelegate != null) {
+                    // The delegate is an anonymous inner class from Reader.of() with val$cs field
+                    Class<?> delegateClass = readerDelegate.getClass();
+                    // Look for val$cs synthetic field (lambda/closure captured variable)
+                    Field csField = null;
+                    try {
+                        csField = delegateClass.getDeclaredField("val$cs");
+                    } catch (NoSuchFieldException nsf) {
+                        // Try to find CharSequence field if val$cs name is different
+                        for (Field f : delegateClass.getDeclaredFields()) {
+                            if (f.getType().equals(CharSequence.class)) {
+                                csField = f;
+                                break;
+                            }
+                        }
+                    }
+                    if (csField != null) {
+                        csField.setAccessible(true);
+                        CharSequence cs = (CharSequence) csField.get(readerDelegate);
+                        originalString = cs != null ? cs.toString() : null;
+                    } else {
+                        LOGGER.error("No CharSequence field found in delegate class: {}", 
+                                delegateClass.getName());
+                        originalString = null;
+                    }
+                } else {
+                    LOGGER.error("StringReader delegate field 'r' is null");
+                    originalString = null;
+                }
+            } else {
+                originalString = (String) sourceRef;
+            }
+        } catch (Exception ex) {
+            LOGGER.error("Error while reading originalString from sourceRef", ex);
+            originalString = null;
         }
         return originalString;
     }

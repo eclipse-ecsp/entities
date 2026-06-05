@@ -73,7 +73,7 @@ public enum DeviceMessageErrorCode {
      */
     KAFKA_DISPATCH_FAILED,
     /**
-     * PU_BACK_NOT_RECEIVED.
+     * PUB_ACK_NOT_RECEIVED.
      */
     PUB_ACK_NOT_RECEIVED;
 }

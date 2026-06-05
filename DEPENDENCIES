@@ -28,7 +28,7 @@ maven/mavencentral/org.mongodb/bson/4.5.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.mongodb/mongodb-driver-core/4.5.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.mongodb/mongodb-driver-legacy/4.5.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.mongodb/mongodb-driver-sync/4.5.1, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.objenesis/objenesis/3.2, Apache-2.0, approved, clearlydefined
-maven/mavencentral/org.projectlombok/lombok/1.18.30, MIT, approved, #15192
+maven/mavencentral/org.objenesis/objenesis/3.2, Apache-2.0, approved, #24688
+maven/mavencentral/org.projectlombok/lombok/1.18.42, MIT, approved, #15192
 maven/mavencentral/org.reflections/reflections/0.9.11, MIT, approved, CQ16665
 maven/mavencentral/org.slf4j/slf4j-api/2.0.13, MIT, approved, #5915
