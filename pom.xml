@@ -80,7 +80,7 @@
         <java.version>25</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <commons-lang3.version>3.9</commons-lang3.version>
-        <mongodb.morphia>2.2.3</mongodb.morphia>
+        <mongodb.morphia>2.5.2</mongodb.morphia>
         <jackson-version>2.15.3</jackson-version>
         <logback.version>1.5.5</logback.version>
         <openpojo.version>0.9.1</openpojo.version>
@@ -181,12 +181,12 @@
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
-            <version>4.5.1</version>
+            <version>5.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-legacy</artifactId>
-            <version>4.5.1</version>
+            <version>5.2.1</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -270,7 +270,8 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <configuration>
-            <release>${java.version}</release>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
 				<plugin>
