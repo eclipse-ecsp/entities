@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 
 import static org.eclipse.ecsp.utils.NumericConstants.TEN;
@@ -96,6 +95,88 @@ public class EventDataDeserializerTest {
         Exception e = assertThrows(IllegalArgumentException.class,
                 () -> eventDataDeSerializer.deserialize(parser, ctxt));
         assertEquals(IllegalArgumentException.class, e.getClass());
+    }
+
+    @Test
+    public void testDeSerializationNestedEventSingleLevelPointer() throws IOException {
+        String nestedEvent = "{\"failedEvent\":{\"EventID\":\"Speed\",\"Version\":\"1.0\","
+                + "\"Data\":{\"value\":22.5}}}";
+        JsonParser parser = mapper.getFactory().createParser(nestedEvent);
+
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+
+        EventData event = eventDataDeSerializer.deserialize(parser, mapper.getDeserializationContext());
+        Assert.assertNotNull(event);
+        assertEquals(SpeedV1_0.class, event.getClass());
+    }
+
+    @Test
+    public void testDeSerializationNestedEventTwoLevelPointer() throws IOException {
+        String nestedEvent = "{\"deviceMessage\":{\"event\":{\"EventID\":\"Speed\",\"Version\":\"1.0\","
+                + "\"data\":{\"value\":19.75}}}}";
+        JsonParser parser = mapper.getFactory().createParser(nestedEvent);
+
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+        parser.nextToken();
+
+        EventData event = eventDataDeSerializer.deserialize(parser, mapper.getDeserializationContext());
+        Assert.assertNotNull(event);
+        assertEquals(SpeedV1_0.class, event.getClass());
+    }
+
+    @Test
+    public void testDeSerializationWithMissingEventIdThrowsException() throws IOException {
+        String eventWithoutId = "{\"Version\":\"1.0\",\"Data\":{\"value\":11.1}}";
+        JsonParser parser = mapper.getFactory().createParser(eventWithoutId);
+
+        try {
+            eventDataDeSerializer.deserialize(parser, mapper.getDeserializationContext());
+            Assert.fail("Expected DataDeserializationException for empty EventID");
+        } catch (DataDeserializationException e) {
+            assertEquals(DataDeserializationException.class, e.getClass());
+        }
+    }
+
+    @Test
+    public void testDeSerializationWithMissingVersionUsesDefaultVersion() throws IOException {
+        String eventWithoutVersion = "{\"EventID\":\"Speed\",\"Data\":{\"value\":13.2}}";
+        JsonParser parser = mapper.getFactory().createParser(eventWithoutVersion);
+
+        EventData event = eventDataDeSerializer.deserialize(parser, mapper.getDeserializationContext());
+        Assert.assertNotNull(event);
+        assertEquals(SpeedV1_0.class, event.getClass());
+    }
+
+    @Test
+    public void testDeSerializationUsesGenericEventDataForUnknownMapping() throws IOException {
+        String unknownEvent = "{\"EventID\":\"UnknownEvent\",\"Version\":\"9.9\",\"Data\":{\"foo\":\"bar\"}}";
+        JsonParser parser = mapper.getFactory().createParser(unknownEvent);
+
+        EventData event = eventDataDeSerializer.deserialize(parser, mapper.getDeserializationContext());
+        Assert.assertNotNull(event);
+        assertEquals(GenericEventData.class, event.getClass());
+    }
+
+    @Test
+    public void testRemoveEmptyDataRemovesBlankEntries() {
+        String[] input = {"", "deviceMessage", "", "event", "", "data", ""};
+
+        String[] output = eventDataDeSerializer.removeEmptyData(input);
+
+        Assert.assertArrayEquals(new String[]{"deviceMessage", "event", "data"}, output);
     }
 
 
