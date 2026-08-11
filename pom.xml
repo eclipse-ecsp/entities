@@ -82,7 +82,7 @@
         <commons-lang3.version>3.9</commons-lang3.version>
         <mongodb.morphia>2.5.2</mongodb.morphia>
         <jackson-version>2.15.3</jackson-version>
-        <logback.version>1.5.5</logback.version>
+        <logback.version>1.5.13</logback.version>
         <openpojo.version>0.9.1</openpojo.version>
         <equalsverifier.version>3.7</equalsverifier.version>
         <maven.surefire.version>2.18.1</maven.surefire.version>
